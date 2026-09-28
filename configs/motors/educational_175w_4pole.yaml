@@ -1,0 +1,52 @@
+# -----------------------------------------------------------------------------
+# Squirrel-cage induction motor: low-power educational bench class
+# (~175 W, 4 poles, 208 V line-to-line, 60 Hz, star connected).
+#
+#   >>> EVERY VALUE IN THIS FILE IS AN ASSUMPTION <<<
+#
+# The numbers are representative of the four-pole squirrel-cage motors used in
+# LabVolt / Festo didactic benches (8221-type, 0.2 kW class), but they were NOT
+# measured on a specific machine. They were chosen so that the model is
+# self-consistent with the assumed nameplate: at rated voltage and frequency the
+# equivalent circuit delivers the rated shaft power (plus the modelled friction
+# loss) at the rated speed.
+#
+# To model YOUR motor:
+#   1. Copy this file and replace the `nameplate` block with the plate data.
+#   2. Replace `equivalent_circuit` with the values identified from the no-load
+#      and locked-rotor tests (see the identification tool delivered in Phase 6).
+#   3. Replace `mechanical` with the measured inertia/friction (e.g. from a
+#      coast-down test) of the motor + coupling + dynamometer.
+#   4. Change every `provenance` entry from `assumed` to `nameplate`/`measured`.
+# -----------------------------------------------------------------------------
+name: educational-175W-4p-208V-60Hz
+
+provenance:
+  nameplate: assumed
+  equivalent_circuit: assumed
+  mechanical: assumed
+  notes: >-
+    Typical values for a 0.2 kW class didactic motor. Core losses are not
+    modelled (no Rc branch); magnetic saturation is not modelled.
+
+nameplate:
+  rated_power_w: 175.0         # shaft (output) power
+  rated_voltage_v: 208.0       # line-to-line RMS
+  rated_current_a: 1.2         # line RMS
+  rated_frequency_hz: 60.0
+  rated_speed_rpm: 1670.0
+  poles: 4                     # number of poles (not pole pairs)
+  connection: star
+
+# Per-phase T-equivalent circuit of the star-equivalent machine, rotor
+# quantities referred to the stator. Inductances in henry (X = 2*pi*f*L).
+equivalent_circuit:
+  stator_resistance_ohm: 7.0
+  rotor_resistance_ohm: 11.9
+  stator_leakage_inductance_h: 0.035
+  rotor_leakage_inductance_h: 0.035
+  magnetizing_inductance_h: 0.32
+
+mechanical:
+  rotor_inertia_kgm2: 1.0e-3        # rotor + coupling (dynamometer inertia goes in `load`)
+  viscous_friction_nm_s_per_rad: 1.7e-4
