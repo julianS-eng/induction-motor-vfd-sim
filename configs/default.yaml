@@ -1,0 +1,57 @@
+# -----------------------------------------------------------------------------
+# Default drive scenario: educational motor fed by a two-level inverter under
+# scalar V/f control, driving a constant-torque load through a coupling.
+# Paths are relative to this file.
+# -----------------------------------------------------------------------------
+motor: motors/educational_175w_4pole.yaml
+
+dc_link:
+  # Phase 1 uses an ideal (stiff) DC bus. ~285 V is what a three-phase diode
+  # bridge fed from 208 V (peak 294 V) delivers under load; Phase 2 replaces
+  # this with the rectifier + capacitor + braking-chopper model.
+  nominal_voltage_v: 285.0
+
+inverter:
+  model: averaged               # averaged | (switched: Phase 2)
+  switching_frequency_hz: 10000.0
+
+modulation:
+  method: spwm                  # spwm | (svpwm: Phase 2)
+
+vf_control:
+  base_frequency_hz: 60.0
+  base_voltage_v: 208.0         # line-to-line RMS at base frequency
+  profile: linear               # linear | quadratic
+  boost_fraction: 0.06          # voltage at 0 Hz as a fraction of base voltage
+  max_frequency_hz: 60.0
+  accel_rate_hz_per_s: 30.0
+  decel_rate_hz_per_s: 30.0
+  slip_compensation_gain: 1.0   # 0 disables slip compensation
+  slip_filter_time_constant_s: 0.05
+  current_limit_a: 3.0          # RMS; ramp is held while exceeded (stall prevention)
+  allow_overmodulation: false
+
+load:
+  components:
+    - type: inertia
+      inertia_kgm2: 1.0e-3      # coupling + dynamometer rotor (assumed)
+    - type: friction
+      viscous_nm_s_per_rad: 0.0
+      coulomb_nm: 0.02
+    - type: constant
+      torque_nm: 0.5
+
+simulation:
+  t_end_s: 3.0
+  plant_substeps: 1             # RK4 sub-steps per control period
+  computation_delay: true       # duty cycles are applied one sample later (as on an MCU)
+  record_every: 1
+
+sensors:
+  current_noise_std_a: 0.0
+  seed: 20260928
+
+reference:
+  # Piecewise-constant speed reference: list of [time_s, speed_rpm]
+  speed_rpm:
+    - [0.0, 1500.0]
