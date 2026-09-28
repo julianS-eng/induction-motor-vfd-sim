@@ -1,0 +1,124 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "induction-motor-vfd-sim"
+version = "0.1.0"
+description = "Digital twin of a variable-frequency drive for a squirrel-cage induction motor: dq plant, power stage, V/f, FOC and sensorless control."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "induction-motor-vfd-sim contributors" }]
+keywords = [
+    "induction-motor",
+    "variable-frequency-drive",
+    "motor-control",
+    "power-electronics",
+    "simulation",
+    "digital-twin",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+    "Typing :: Typed",
+]
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "matplotlib>=3.8",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "types-PyYAML>=6.0",
+]
+
+[project.scripts]
+vfdsim = "vfdsim.cli:main"
+
+[project.urls]
+Repository = "https://github.com/julianS-eng/induction-motor-vfd-sim"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+vfdsim = ["py.typed"]
+
+# ---------------------------------------------------------------- tooling
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "slow: long-running simulation tests (deselect with -m 'not slow')",
+]
+filterwarnings = ["error"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # bugbear
+    "SIM", # simplify
+    "NPY", # numpy-specific
+    "RUF", # ruff-specific
+    "D",   # pydocstyle
+    "PT",  # pytest style
+]
+ignore = [
+    "RUF001", "RUF002", "RUF003",  # Greek letters are intentional in engineering text
+    "D105",                        # magic methods need no docstring
+    "D107",                        # __init__ documented at class level
+    "D401",                        # docstrings of values/properties are descriptive
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D"]
+"scripts/**" = ["D"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+module = ["matplotlib.*", "scipy.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.coverage.run]
+source = ["vfdsim"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
