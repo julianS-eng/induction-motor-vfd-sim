@@ -30,17 +30,30 @@ def test_default_config_loads(cfg: DriveConfig) -> None:
     assert cfg.source is not None
 
 
-def test_motor_parameters_are_flagged_as_assumed(motor: MotorParameters) -> None:
-    assert motor.is_assumed
-    assert set(motor.provenance) == {"nameplate", "equivalent_circuit", "mechanical"}
+def test_default_motor_is_the_labvolt_8221_22(motor: MotorParameters) -> None:
+    assert "8221-22" in motor.name
+    assert motor.provenance == {
+        "nameplate": "nameplate",
+        "equivalent_circuit": "identified",
+        "mechanical": "assumed",
+    }
+    assert motor.is_assumed  # mechanical data still assumed
+
+
+def test_generic_educational_motor_still_loads() -> None:
+    from vfdsim.config import load_motor
+
+    m = load_motor(DEFAULT_CONFIG_DIR / "motors" / "educational_175w_4pole.yaml")
+    assert m.nameplate.rated_speed_rpm == 1670.0
+    assert all(v == "assumed" for v in m.provenance.values())
 
 
 def test_derived_nameplate_quantities(motor: MotorParameters) -> None:
     npl = motor.nameplate
     assert npl.pole_pairs == 2
     assert npl.synchronous_speed_rpm == pytest.approx(1800.0)
-    assert npl.rated_slip == pytest.approx(130.0 / 1800.0)
-    assert npl.rated_torque_nm == pytest.approx(175.0 / (1670.0 * 2 * 3.141592653589793 / 60))
+    assert npl.rated_slip == pytest.approx(115.0 / 1800.0)
+    assert npl.rated_torque_nm == pytest.approx(200.0 / (1685.0 * 2 * 3.141592653589793 / 60))
     assert motor.l_s == pytest.approx(motor.l_ls + motor.l_m)
     assert 0.0 < motor.sigma < 1.0
 

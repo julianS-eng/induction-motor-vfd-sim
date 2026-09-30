@@ -68,7 +68,7 @@ def test_slip_for_torque_inverts_torque(ec: EquivalentCircuit) -> None:
         ec.slip_for_torque(10.0, V_RATED, F_RATED)
 
 
-def test_assumed_parameters_reproduce_nameplate_rated_point(
+def test_motor_parameters_reproduce_nameplate_rated_point(
     motor: MotorParameters, ec: EquivalentCircuit
 ) -> None:
     """The parameter file is self-consistent: rated torque + friction at rated speed."""
@@ -94,3 +94,16 @@ def test_stall_is_reported(ec: EquivalentCircuit) -> None:
 def test_steady_state_requires_frequency(dq: InductionMotorModel) -> None:
     with pytest.raises(ValueError, match="non-zero"):
         dq.steady_state(120.0, 0.0, 0.1)
+
+
+def test_labvolt_plate_power_factor_and_generator_mode(
+    motor: MotorParameters, ec: EquivalentCircuit
+) -> None:
+    """LabVolt 8221-22 plate: PF 0.73 in motor mode; 200 W at 1900 r/min as a generator."""
+    op_motor = ec.operating_point(motor.nameplate.rated_slip, V_RATED, F_RATED)
+    assert op_motor.power_factor == pytest.approx(0.73, abs=0.005)
+    assert op_motor.stator_current_rms_a == pytest.approx(1.14, abs=0.005)
+    op_gen = ec.operating_point((1800.0 - 1900.0) / 1800.0, V_RATED, F_RATED)
+    assert -op_gen.input_power_w == pytest.approx(200.0, rel=0.02)  # electrical output
+    # without an iron-loss branch the model current is higher than the plate (1.18 A)
+    assert 1.18 < op_gen.stator_current_rms_a < 1.5
