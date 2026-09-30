@@ -1,0 +1,48 @@
+# -----------------------------------------------------------------------------
+# LabVolt Series 8221-22 four-pole squirrel-cage induction motor
+# (motor used in the thesis laboratory).
+#
+# Rating plate (from the equipment data sheet):
+#   supply 208 V 3~ 60 Hz
+#   motor mode:     200 W, PF 0.73, 1685 r/min, 1.14 A
+#   generator mode: 200 W, PF 0.47, 1900 r/min, 1.18 A
+#   three independent windings, 120 V each (terminals 1-4 red, 2-5 black,
+#   3-6 blue) -> connected in STAR for the 208 V line supply
+#   built-in thermistor 10 kOhm (LV type 2), yellow terminals
+#
+# Equivalent circuit: fitted to the MOTOR-MODE plate data with
+# scripts/fit_nameplate.py (Lls = Llr, breakdown torque assumed 2.0x rated).
+# It is NOT a measured circuit: confirm it with the DC, no-load and
+# locked-rotor tests and replace these values.
+# Mechanical data are assumptions (measure them with a coast-down test).
+# -----------------------------------------------------------------------------
+name: LabVolt-8221-22-200W-4p-208V-60Hz
+
+provenance:
+  nameplate: nameplate
+  equivalent_circuit: identified
+  mechanical: assumed
+  notes: >-
+    Equivalent circuit fitted to the motor-mode rating plate (not to tests).
+    The generator-mode plate point is used only as a validation. Core losses
+    and saturation are not modelled.
+
+nameplate:
+  rated_power_w: 200.0         # shaft output, motor mode
+  rated_voltage_v: 208.0       # line-to-line RMS
+  rated_current_a: 1.14
+  rated_frequency_hz: 60.0
+  rated_speed_rpm: 1685.0
+  poles: 4
+  connection: star             # three 120 V windings in star
+
+equivalent_circuit:            # per phase, star, referred to stator
+  stator_resistance_ohm: 20.65
+  rotor_resistance_ohm: 8.194
+  stator_leakage_inductance_h: 0.02155
+  rotor_leakage_inductance_h: 0.02155
+  magnetizing_inductance_h: 0.3186
+
+mechanical:
+  rotor_inertia_kgm2: 1.0e-3        # ASSUMED: rotor + coupling
+  viscous_friction_nm_s_per_rad: 1.7e-4   # ASSUMED

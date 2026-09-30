@@ -3,7 +3,7 @@
 # scalar V/f control, driving a constant-torque load through a coupling.
 # Paths are relative to this file.
 # -----------------------------------------------------------------------------
-motor: motors/educational_175w_4pole.yaml
+motor: motors/labvolt_8221_22.yaml
 
 dc_link:
   # Phase 1 uses an ideal (stiff) DC bus. ~285 V is what a three-phase diode
@@ -22,7 +22,7 @@ vf_control:
   base_frequency_hz: 60.0
   base_voltage_v: 208.0         # line-to-line RMS at base frequency
   profile: linear               # linear | quadratic
-  boost_fraction: 0.06          # voltage at 0 Hz as a fraction of base voltage
+  boost_fraction: 0.12          # voltage at 0 Hz as a fraction of base voltage (R_s = 20.7 ohm needs a high boost)
   max_frequency_hz: 60.0
   accel_rate_hz_per_s: 30.0
   decel_rate_hz_per_s: 30.0
