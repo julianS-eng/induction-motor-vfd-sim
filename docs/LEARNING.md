@@ -66,7 +66,7 @@ senoidal que coincide exactamente con el **circuito equivalente en T** por fase
 ($R_s$, $X_{ls}$, $X_m$, $X_{lr}$, $R_r/s$). El simulador lo usa como *referencia independiente*:
 el test `test_torque_speed_curve_matches_equivalent_circuit` bloquea el eje del modelo dinámico
 en varias velocidades y comprueba que el par medio coincide con el del circuito (error máximo
-$1.3\times10^{-5}$ N·m en la corrida de esta fase).
+$2.8\times10^{-7}$ N·m en la corrida de esta fase, con el motor LabVolt 8221-22).
 
 Relaciones clave:
 
@@ -84,14 +84,15 @@ el flujo**, y con el flujo constante la curva par-velocidad se desplaza horizont
 la frecuencia sin cambiar de forma. Tres problemas prácticos y sus soluciones:
 
 1. **Baja frecuencia** → la caída $R_s i_s$ deja de ser despreciable, el flujo cae y el motor
-   pierde par. Solución: **boost** (tensión adicional $V_0$ a 0 Hz). En la corrida de esta fase,
-   con 50 % de carga y sin boost el motor se detiene por debajo de ~5 Hz; con 6 % de boost gira
-   a 2 Hz. Contrapartida: sobreexcitación (el flujo a 2 Hz sube a 0.614 Wb frente a 0.450 Wb
-   nominales), que en un motor real produciría saturación y más corriente magnetizante.
+   pierde par. Solución: **boost** (tensión adicional $V_0$ a 0 Hz). El LabVolt 8221-22 tiene
+   una resistencia de estator alta (≈ 20,7 Ω según el ajuste a la placa), así que necesita 12 %
+   de boost: con 30 % de carga y sin boost se detiene hasta 8 Hz; con 12 % gira a 2 Hz. Aun así
+   el par máximo a 15 Hz es solo 0.95× el nominal. Contrapartida general del boost: con poca
+   carga puede sobreexcitar la máquina (saturación y más corriente magnetizante).
 2. **Deslizamiento** → a carga nominal el rotor gira más lento que el campo. Solución:
    **compensación de deslizamiento**: estimar el par a partir de la potencia
    ($\hat T = p(P_{in} - P_{cu,s})/\omega_e$) y sumar a la frecuencia la de deslizamiento
-   correspondiente. A 30 Hz y par nominal el error pasa de 13.43 % a 1.03 %.
+   correspondiente. A 30 Hz y par nominal el error pasa de 13.78 % a 0.48 %.
 3. **Arranques bruscos** → corriente excesiva. Solución: **rampa** de frecuencia y **prevención
    de bloqueo** (la rampa se congela mientras la corriente filtrada supera el límite).
 
@@ -102,7 +103,7 @@ sobre un periodo de conmutación, la tensión del polo es $d_k V_{dc}$ con
 $d_k = \tfrac12 + v_k^*/V_{dc}$. La zona lineal termina cuando la amplitud de fase llega a
 $V_{dc}/2$, es decir, una tensión de línea eficaz de $0.612\,V_{dc}$. Con un bus de 285 V
 (rectificador de 208 V) eso son 174.5 V < 208 V: **el variador con SPWM no puede dar la
-tensión nominal**, la ley V/f se satura en 49.75 Hz y a 60 Hz el motor queda subexcitado. La
+tensión nominal**, la ley V/f (12 % de boost) se satura en 49.25 Hz y a 60 Hz el motor queda subexcitado. La
 SVPWM (Fase 2) sube el límite un 15.5 % ($2/\sqrt3$).
 
 ### 1.6 El motor de simulación como un microcontrolador
@@ -128,7 +129,7 @@ retardo), y el estimador de potencia de la compensación de deslizamiento lo cor
 | Cargas como componentes sumables con signo suavizado ($\tanh$) | `sign()` discontinuo; modelo de fricción estática con estados | Un `sign` discontinuo hace oscilar al integrador en velocidad cero; la función suave mantiene el lado derecho continuo. Se documenta el pequeño *creep* que introduce. |
 | Compensación de deslizamiento basada en potencia, con placa de características | Estimar deslizamiento con el modelo completo del motor | Es lo que hacen los variadores V/f industriales con solo datos de placa. La versión basada en modelo sería FOC encubierto, que llega en la Fase 3. |
 | La compensación no puede superar la frecuencia máxima configurada | Permitir superarla | La frecuencia máxima protege la mecánica; es un límite duro en los variadores reales. |
-| Parámetros supuestos autoconsistentes con la placa | Tomar valores "de tabla" sin verificar | Un circuito equivalente arbitrario no reproduce la velocidad nominal; aquí el circuito entrega 175 W a 1670 r/min con 208 V/60 Hz (verificado por un test). |
+| Circuito equivalente ajustado a la placa del LabVolt 8221-22 (modo motor exacto, modo alternador como validación) | Ajuste de compromiso a ambos modos; valores "de tabla" | Un circuito sin pérdidas en el hierro no puede reproducir ambos puntos; se prioriza el modo motor (200 W, 1685 r/min, 1,14 A, FP 0,73, verificado por tests) y el modo alternador sirve para cuantificar el error del modelo. |
 
 ---
 
@@ -155,8 +156,8 @@ compensación IR.
 motor? ¿Qué consecuencias tiene?**
 No. El bus DC de un rectificador de diodos queda cerca de $\sqrt2\cdot208\approx294$ V en vacío
 (285 V supuestos con carga), y la SPWM lineal solo entrega $0.612\,V_{dc}\approx174.5$ V de línea.
-Por encima de ~50 Hz el motor trabaja subexcitado: más deslizamiento y menos par máximo (2.07×
-el nominal a 60 Hz en la simulación, frente a 2.93× con tensión nominal). Soluciones: SVPWM o
+Por encima de ~50 Hz el motor trabaja subexcitado: más deslizamiento y menos par máximo (1.41×
+el nominal a 60 Hz en la simulación del LabVolt 8221-22, frente a 2.00× con tensión nominal). Soluciones: SVPWM o
 inyección de tercer armónico (+15.5 %), sobremodulación, o aceptar el debilitamiento de campo.
 
 **5. ¿Cómo verificaría que un simulador de motor está bien implementado?**

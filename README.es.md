@@ -37,20 +37,22 @@ microcontrolador.
 ## Resultados principales de la Fase 1
 
 Todos los números se generan con `vfdsim experiments phase1` y se inyectan en el README con
-`scripts/sync_readme.py` (la CI verifica que estén sincronizados). Con el motor **supuesto** de
-175 W, 208 V, 60 Hz, 4 polos:
+`scripts/sync_readme.py` (la CI verifica que estén sincronizados). Con el motor del laboratorio,
+**LabVolt 8221-22** (200 W, 208 V, 60 Hz, 4 polos, 1685 r/min, 1,14 A, FP 0,73):
 
 * **Validación del modelo**: la velocidad en vacío coincide con $n_s = 120 f / P$ (error relativo
   del orden de $10^{-8}$); el par del modelo dq con el eje bloqueado coincide con el circuito
-  equivalente en 12 puntos con error máximo de $1.3\times10^{-5}$ N·m; el balance de potencia
+  equivalente en 12 puntos con error máximo de $2.8\times10^{-7}$ N·m; el balance de potencia
   cierra con residuo relativo del orden de $10^{-7}$.
 * **Límite del modulador**: con un bus de 285 V (puente de diodos desde 208 V) la SPWM entrega
-  como máximo 174.5 V de línea, por lo que la ley V/f se satura en 49.75 Hz y a 60 Hz el par
-  máximo cae a 2.07 veces el nominal.
+  como máximo 174.5 V de línea, por lo que la ley V/f se satura en 49.25 Hz y a 60 Hz el par
+  máximo cae a 1.41 veces el nominal (2.00× con tensión nominal).
 * **Compensación de deslizamiento**: a 30 Hz y par nominal el error de velocidad baja de
-  13.43 % a 1.03 %.
-* **Boost**: con 50 % de carga y sin boost el motor se detiene por debajo de unos 5 Hz; con 6 % de
-  boost sigue girando a 2 Hz.
+  13.78 % a 0.48 %.
+* **Boost**: por la resistencia de estator alta (≈ 20,7 Ω) se usa 12 % de boost. Con 30 % de
+  carga y sin boost el motor se detiene hasta 8 Hz; con 12 % sigue girando a 2 Hz. Aun así, a
+  15 Hz el par máximo es 0.95× el nominal: con este motor no conviene esperar par nominal en V/f
+  por debajo de unos 20 Hz.
 
 ![Curva par-velocidad](docs/img/phase1_torque_speed.png)
 
@@ -66,11 +68,15 @@ pytest                           # tests
 
 ## Datos del motor
 
-Todos los parámetros de `configs/motors/educational_175w_4pole.yaml` son **supuestos** típicos de
-un motor didáctico de 0.2 kW y están marcados con `provenance: assumed`. Para modelar el motor
-real del banco basta copiar el archivo, reemplazar la placa, el circuito equivalente
-identificado (ensayos DC, vacío y rotor bloqueado) y la inercia/fricción (ensayo de
-desaceleración libre), y cambiar la procedencia a `nameplate` / `measured` / `identified`.
+Esta rama (`labvolt-8221-22`) usa `configs/motors/labvolt_8221_22.yaml` con la **placa real** del
+motor. El circuito equivalente se ajustó a la placa en modo motor con `scripts/fit_nameplate.py`
+(Rs ≈ 20,65 Ω, Rr ≈ 8,19 Ω, Lls = Llr ≈ 21,6 mH, Lm ≈ 318,6 mH, suponiendo par máximo 2× nominal):
+reproduce exactamente 200 W, 1685 r/min, 1,14 A y FP 0,73. Como validación, en modo alternador a
+1900 r/min entrega 199,6 W pero con FP 0,40 y 1,38 A (placa: 0,47 y 1,18 A), diferencia atribuible
+a que el modelo no tiene pérdidas en el hierro ni saturación. La inercia y la fricción siguen
+siendo **supuestas**. Lo ideal es reemplazar el circuito por el identificado con los ensayos DC,
+vacío y rotor bloqueado, y J/B con un ensayo de desaceleración libre. La rama `main` conserva el
+motor genérico supuesto de 175 W.
 
 ## Relación con el banco LabVolt / Festo
 
