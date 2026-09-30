@@ -108,9 +108,9 @@ def rated_point_and_torque_speed(
     }
     report.metrics["rated_point"] = rated
     report.markdown.append(
-        "#### Assumed motor: rated operating point (equivalent circuit, 208 V / 60 Hz)\n\n"
+        f"#### Motor {m.name}: rated operating point (equivalent circuit, 208 V / 60 Hz)\n\n"
         + _table(
-            ["Quantity", "Value", "Nameplate (assumed)"],
+            ["Quantity", "Value", f"Rating plate ({m.provenance.get('nameplate', 'unknown')})"],
             [
                 [
                     "Speed",
@@ -260,7 +260,7 @@ def vf_family(cfg: DriveConfig, report: ExperimentReport, img_dir: Path) -> None
     ax2.set_xlabel("Speed (r/min)")
     ax2.set_ylabel("Torque (N·m)")
     ax2.set_title("Steady-state torque–speed curves under V/f")
-    ax2.set_ylim(0, 3.6)
+    ax2.set_ylim(0, 1.3 * max(c["breakdown_torque_nm"] for c in family.values()))
     ax2.legend(loc="upper right", ncols=4)
     fig.tight_layout()
     report.figures.append(save(fig, img_dir / "phase1_vf_family.png"))
@@ -455,16 +455,16 @@ def slip_compensation(cfg: DriveConfig, report: ExperimentReport, img_dir: Path)
 
 # ------------------------------------------------------------------------ E6
 def boost(cfg: DriveConfig, report: ExperimentReport, img_dir: Path, quick: bool) -> None:
-    """Low-frequency operation with 50 % rated load for several boost levels."""
+    """Low-frequency operation with 30 % rated load for several boost levels."""
     m = cfg.motor
     ec = EquivalentCircuit(m)
-    t_load = 0.5 * m.nameplate.rated_torque_nm
+    t_load = 0.3 * m.nameplate.rated_torque_nm
     coul = 0.0
 
     def opposing(w: float) -> float:
         return t_load * math.tanh(w / 0.5) + m.viscous_friction * w + coul
 
-    boosts = (0.0, 0.03, 0.06)
+    boosts = (0.0, 0.06, 0.12)
     f_axis = np.linspace(1.0, 12.0, 45)
     f_sim = (2.0, 4.0, 8.0) if quick else (2.0, 3.0, 5.0, 8.0)
     apply_style()
@@ -503,7 +503,7 @@ def boost(cfg: DriveConfig, report: ExperimentReport, img_dir: Path, quick: bool
         )
     ax.set_xlabel("Commanded frequency (Hz)")
     ax.set_ylabel("Steady-state speed (r/min)")
-    ax.set_title("Low-speed operation with 50 % rated load")
+    ax.set_title("Low-speed operation with 30 % rated load")
     ax.set_ylim(bottom=0)
     ax.plot([], [], color=TEXT_SECONDARY, label="lines: equivalent circuit")
     ax.plot([], [], **marker_kwargs(TEXT_SECONDARY), label="dots: dq simulation")
@@ -512,7 +512,7 @@ def boost(cfg: DriveConfig, report: ExperimentReport, img_dir: Path, quick: bool
     report.figures.append(save(fig, img_dir / "phase1_boost.png"))
     report.metrics["boost"] = metrics
     report.markdown.append(
-        "#### Voltage boost at low frequency (50 % rated load, slip compensation off)\n\n"
+        "#### Voltage boost at low frequency (30 % rated load, slip compensation off)\n\n"
         + _table(
             ["Boost"]
             + [f"Speed at {fx:.0f} Hz (sync {30 * fx:.0f})" for fx in f_sim]
@@ -520,9 +520,8 @@ def boost(cfg: DriveConfig, report: ExperimentReport, img_dir: Path, quick: bool
             table_rows,
         )
         + "\n\nSpeeds in r/min from the dq simulation. Without boost the stator resistance"
-        " drop leaves too little flux and the motor stalls (speed ≈ 0). The rated flux is about"
-        f" {m.rated_flux_linkage():.3f} Wb (V/ω at the rating plate): at very low frequency the"
-        " boost over-fluxes the unsaturated model."
+        " drop leaves too little flux and the motor stalls (speed ≈ 0). For reference, the"
+        f" rated flux is about {m.rated_flux_linkage():.3f} Wb (V/ω at the rating plate)."
     )
 
 

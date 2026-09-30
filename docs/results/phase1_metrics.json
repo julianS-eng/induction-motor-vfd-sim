@@ -2,222 +2,222 @@
   "boost": {
     "boost_0.00": {
       "2Hz": {
-        "psi_s_wb": 0.2074065911289609,
-        "speed_rpm": 1.0496974092006635
+        "psi_s_wb": 0.07627638199561626,
+        "speed_rpm": 0.3270573995089428
       },
       "3Hz": {
-        "psi_s_wb": 0.24689831120897332,
-        "speed_rpm": 2.334431195819588
+        "psi_s_wb": 0.09646569357435773,
+        "speed_rpm": 0.7839602008626347
       },
       "5Hz": {
-        "psi_s_wb": 0.2813309226772714,
-        "speed_rpm": 8.157737077540526
+        "psi_s_wb": 0.11656024510485581,
+        "speed_rpm": 1.9557376484270692
       },
       "8Hz": {
-        "psi_s_wb": 0.36060739373718886,
-        "speed_rpm": 148.81166028222788
-      }
-    },
-    "boost_0.03": {
-      "2Hz": {
-        "psi_s_wb": 0.39152563682481234,
-        "speed_rpm": 4.408512619436574
-      },
-      "3Hz": {
-        "psi_s_wb": 0.4040150205470294,
-        "speed_rpm": 18.07245555021494
-      },
-      "5Hz": {
-        "psi_s_wb": 0.44338932760434135,
-        "speed_rpm": 90.19542754125749
-      },
-      "8Hz": {
-        "psi_s_wb": 0.45528569017187304,
-        "speed_rpm": 183.1193373942113
+        "psi_s_wb": 0.12892021221051964,
+        "speed_rpm": 4.4178011343879
       }
     },
     "boost_0.06": {
       "2Hz": {
-        "psi_s_wb": 0.6137146015856093,
-        "speed_rpm": 28.963680349587253
+        "psi_s_wb": 0.21092736799578082,
+        "speed_rpm": 2.6409126592456813
       },
       "3Hz": {
-        "psi_s_wb": 0.6143049288835881,
-        "speed_rpm": 58.98996598775846
+        "psi_s_wb": 0.20969505458423865,
+        "speed_rpm": 4.510213176933116
       },
       "5Hz": {
-        "psi_s_wb": 0.5859929978254895,
-        "speed_rpm": 115.8426876991198
+        "psi_s_wb": 0.24829276687704913,
+        "speed_rpm": 66.9850843886482
       },
       "8Hz": {
-        "psi_s_wb": 0.5449137765871335,
-        "speed_rpm": 200.35819653450565
+        "psi_s_wb": 0.33286359876474464,
+        "speed_rpm": 193.80487457898505
+      }
+    },
+    "boost_0.12": {
+      "2Hz": {
+        "psi_s_wb": 0.372614856327154,
+        "speed_rpm": 23.49822362954151
+      },
+      "3Hz": {
+        "psi_s_wb": 0.39886250821538716,
+        "speed_rpm": 58.09461811100639
+      },
+      "5Hz": {
+        "psi_s_wb": 0.43713997679945654,
+        "speed_rpm": 123.35629431772128
+      },
+      "8Hz": {
+        "psi_s_wb": 0.4668165025431296,
+        "speed_rpm": 216.52715151662895
       }
     }
   },
   "motor": {
     "dc_link_v": 285.0,
-    "name": "educational-175W-4p-208V-60Hz",
+    "name": "LabVolt-8221-22-200W-4p-208V-60Hz",
     "provenance": {
-      "equivalent_circuit": "assumed",
+      "equivalent_circuit": "identified",
       "mechanical": "assumed",
-      "nameplate": "assumed"
+      "nameplate": "nameplate"
     },
     "switching_frequency_hz": 10000.0
   },
   "power_balance_45hz": {
-    "p_cu_r_w": 13.527864494243447,
-    "p_cu_s_w": 25.509680441010357,
-    "p_em_w": 131.0188434755077,
-    "p_fric_w": 2.791417833341736,
-    "p_in_w": 170.05637372267125,
-    "p_load_w": 128.22742563975925,
-    "residual_w": -1.4685683538573358e-05
+    "p_cu_r_w": 14.11914153922035,
+    "p_cu_s_w": 79.96099375209451,
+    "p_em_w": 149.22218930126098,
+    "p_fric_w": 2.8356224231055114,
+    "p_in_w": 243.3022563992785,
+    "p_load_w": 146.38656253781008,
+    "residual_w": -6.385295196764673e-05
   },
   "rated_point": {
-    "breakdown_slip": 0.4574955652244927,
-    "breakdown_torque_nm": 2.93508171603249,
-    "current_a": 1.1031836217526727,
-    "efficiency_no_core_loss": 0.796340666762629,
-    "input_power_w": 219.7847660816502,
-    "no_load_current_a": 0.8960866049487147,
-    "power_factor": 0.5530008757544647,
-    "shaft_power_w": 175.02354716572978,
-    "slip": 0.07209738486737961,
-    "speed_rpm": 1670.2247072387167,
-    "starting_current_a": 3.8996856178036006,
-    "starting_torque_nm": 2.3219312900357902,
-    "torque_nm": 1.030408730692391
+    "breakdown_slip": 0.3196945577376215,
+    "breakdown_torque_nm": 2.266984522524869,
+    "current_a": 1.139991788361716,
+    "efficiency_no_core_loss": 0.66708412777571,
+    "input_power_w": 299.81322636046707,
+    "no_load_current_a": 0.9245742927515087,
+    "power_factor": 0.7300037694307573,
+    "shaft_power_w": 200.00064460229368,
+    "slip": 0.06388587179229953,
+    "speed_rpm": 1685.0054307738608,
+    "starting_current_a": 3.7318536783700345,
+    "starting_torque_nm": 1.5868878897944605,
+    "torque_nm": 1.1634447364712674
   },
   "slip_compensation": {
     "gain_0": {
-      "speed_light_rpm": 877.1477819228976,
-      "speed_rated_rpm": 779.111311673096
+      "speed_light_rpm": 883.204303807278,
+      "speed_rated_rpm": 775.9884273389633
     },
     "gain_1": {
-      "speed_light_rpm": 904.9924273375262,
-      "speed_rated_rpm": 909.2628042231776
+      "speed_light_rpm": 907.6220541352003,
+      "speed_rated_rpm": 895.7221560176774
     }
   },
   "synchronous_speed_check": {
     "expected_rpm": 1350.0,
     "f_out_hz": 45.0,
-    "rel_error": 6.562983327495641e-09,
-    "speed_rpm": 1350.0000088600275
+    "rel_error": 8.78996700150849e-09,
+    "speed_rpm": 1350.0000118664555
   },
   "torque_speed_validation": {
-    "max_abs_torque_error_nm": 1.3134271592551983e-05,
-    "max_rel_current_error": 0.00019907916991131016,
-    "max_rel_torque_error": 5.6566150983518224e-06,
+    "max_abs_torque_error_nm": 2.8167018717439873e-07,
+    "max_rel_current_error": 0.00019040409667262057,
+    "max_rel_torque_error": 1.7749847924725266e-07,
     "points": 12
   },
   "vf_family": {
-    "corner_frequency_hz": 49.75,
+    "corner_frequency_hz": 49.25,
     "curves": {
       "15": {
-        "breakdown_torque_nm": 2.1229042899042296,
-        "line_voltage_v": 61.359999999999985
+        "breakdown_torque_nm": 1.0796259394097243,
+        "line_voltage_v": 70.72
       },
       "30": {
-        "breakdown_torque_nm": 2.602246093258379,
-        "line_voltage_v": 110.23999999999997
+        "breakdown_torque_nm": 1.5278021193639981,
+        "line_voltage_v": 116.47999999999998
       },
       "45": {
-        "breakdown_torque_nm": 2.8188098002305333,
-        "line_voltage_v": 159.11999999999998
+        "breakdown_torque_nm": 1.9243165469968964,
+        "line_voltage_v": 162.23999999999998
       },
       "60": {
-        "breakdown_torque_nm": 2.06640057887105,
+        "breakdown_torque_nm": 1.5960366977343963,
         "line_voltage_v": 174.52614417330142
       }
     }
   },
   "vf_rated_load": {
     "15": {
-      "ec_current_rms_a": 1.1182997285446576,
+      "ec_current_rms_a": 1.4554051534381864,
       "gain_0": {
-        "current_rms_a": 1.1183283884181412,
+        "current_rms_a": 1.455415367934381,
         "f_out_hz": 15.0,
-        "phase_voltage_peak_v": 50.10023020572526,
-        "psi_s_wb": 0.4679021715829296,
-        "slip": 0.2420702065430511,
-        "speed_rpm": 341.068407055627
+        "phase_voltage_peak_v": 57.7426382032088,
+        "psi_s_wb": 0.19407187110026097,
+        "slip": 0.9880033335121098,
+        "speed_rpm": 5.39849991955059
       },
       "gain_1": {
-        "current_rms_a": 1.104234884250839,
-        "f_out_hz": 19.369219853776393,
-        "phase_voltage_peak_v": 61.725370616121054,
-        "psi_s_wb": 0.458678912319166,
-        "slip": 0.19580238927812596,
-        "speed_rpm": 467.3004098386099
+        "current_rms_a": 1.653392313473768,
+        "f_out_hz": 18.33545422960486,
+        "phase_voltage_peak_v": 66.05078406618053,
+        "psi_s_wb": 0.18983931881950147,
+        "slip": 0.9884259922043223,
+        "speed_rpm": 6.366440705722153
       }
     },
     "30": {
-      "ec_current_rms_a": 1.1040429519713948,
+      "ec_current_rms_a": 1.1336561904060543,
       "gain_0": {
-        "current_rms_a": 1.1041495080133117,
+        "current_rms_a": 1.133783956203271,
         "f_out_hz": 30.0,
-        "phase_voltage_peak_v": 90.01058308147252,
-        "psi_s_wb": 0.4467131929477369,
-        "slip": 0.13432076480767363,
-        "speed_rpm": 779.1113116730937
+        "phase_voltage_peak_v": 95.1055217464615,
+        "psi_s_wb": 0.37408210802511443,
+        "slip": 0.13779063631215852,
+        "speed_rpm": 775.9884273190573
       },
       "gain_1": {
-        "current_rms_a": 1.1050706194729465,
-        "f_out_hz": 34.40323806667351,
-        "phase_voltage_peak_v": 101.72623541726337,
-        "psi_s_wb": 0.4438126675598993,
-        "slip": 0.11901431830241399,
-        "speed_rpm": 909.262804223181
+        "current_rms_a": 1.135636141546041,
+        "f_out_hz": 33.886542475235274,
+        "phase_voltage_peak_v": 104.78635067233235,
+        "psi_s_wb": 0.3790982048734128,
+        "slip": 0.11890080784953078,
+        "speed_rpm": 895.7221559910708
       }
     },
     "45": {
-      "ec_current_rms_a": 1.1021921107533788,
+      "ec_current_rms_a": 1.1361425039144766,
       "gain_0": {
-        "current_rms_a": 1.1024248731910495,
+        "current_rms_a": 1.1364469972539049,
         "f_out_hz": 45.0,
-        "phase_voltage_peak_v": 129.92093595721977,
-        "psi_s_wb": 0.4390779592705297,
-        "slip": 0.09358814424854262,
-        "speed_rpm": 1223.6560052644675
+        "phase_voltage_peak_v": 132.46840528971427,
+        "psi_s_wb": 0.386634141070651,
+        "slip": 0.08643941056891015,
+        "speed_rpm": 1233.3067957319713
       },
       "gain_1": {
-        "current_rms_a": 1.103309908145065,
-        "f_out_hz": 49.43762955970989,
-        "phase_voltage_peak_v": 141.7280934012244,
-        "psi_s_wb": 0.43768035122544824,
-        "slip": 0.08596559664433928,
-        "speed_rpm": 1355.6308271378282
+        "current_rms_a": 1.1374204164129156,
+        "f_out_hz": 48.91365811084751,
+        "phase_voltage_peak_v": 142.21677543795929,
+        "psi_s_wb": 0.38809670583057215,
+        "slip": 0.07905657237384638,
+        "speed_rpm": 1351.4013587501313
       }
     },
     "60": {
-      "ec_current_rms_a": 1.1014257219177996,
+      "ec_current_rms_a": 1.2211674663964174,
       "gain_0": {
-        "current_rms_a": 1.1017181529806819,
+        "current_rms_a": 1.2215030564645646,
         "f_out_hz": 60.0,
         "phase_voltage_peak_v": 142.5,
-        "psi_s_wb": 0.35960644010026993,
-        "slip": 0.1084840755082866,
-        "speed_rpm": 1604.7286640850841
+        "psi_s_wb": 0.3025033459714376,
+        "slip": 0.10953684680866217,
+        "speed_rpm": 1602.833675744408
       },
       "gain_1": {
-        "current_rms_a": 1.10171801529807,
+        "current_rms_a": 1.2214959363339697,
         "f_out_hz": 60.0,
         "phase_voltage_peak_v": 142.5,
-        "psi_s_wb": 0.35960644353471116,
-        "slip": 0.10848405301569314,
-        "speed_rpm": 1604.7287045717524
+        "psi_s_wb": 0.30250389754438173,
+        "slip": 0.10953576021679635,
+        "speed_rpm": 1602.8356316097666
       }
     }
   },
   "vf_start": {
-    "energy_residual_electrical_rel": -1.576141915577993e-07,
-    "energy_residual_mechanical_rel": -9.300723593006066e-11,
-    "input_energy_j": 505.4220509018094,
-    "peak_phase_current_a": 2.2839178714671315,
-    "speed_after_step_rpm": 1499.2839930107407,
-    "speed_before_step_rpm": 1503.9066025688585,
-    "speed_dip_rpm": 1431.0683215600873,
-    "time_to_95pct_speed_s": 1.5766
+    "energy_residual_electrical_rel": -4.7273437590110797e-07,
+    "energy_residual_mechanical_rel": -1.1500941055823281e-10,
+    "input_energy_j": 738.5334537381103,
+    "peak_phase_current_a": 1.7185375946928856,
+    "speed_after_step_rpm": 1486.0790634719756,
+    "speed_before_step_rpm": 1507.077454427738,
+    "speed_dip_rpm": 1432.520871302103,
+    "time_to_95pct_speed_s": 1.5723
   }
 }
